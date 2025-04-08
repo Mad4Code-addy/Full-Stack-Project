@@ -26,20 +26,20 @@ A Python Flask web application featuring:
 
 1. **Clone the repository**:
    
-    git clone https://github.com/gspagare/Full-Stack-Project.git
-    cd Full-Stack-Project
+       git clone https://github.com/gspagare/Full-Stack-Project.git
+       cd Full-Stack-Project
 
 2. **Create and activate virtual environment**:
 
-    python -m venv venv
-    # On Windows:
-    venv\Scripts\activate
-    # On macOS/Linux:
-    source venv/bin/activate
+       python -m venv venv
+    ### On Windows:
+       venv\Scripts\activate
+    ### On macOS/Linux:
+       source venv/bin/activate
 
 3. **Install dependencies**:
 
-    pip install -r requirements.txt
+       pip install -r requirements.txt
 
 ## Configuration
 
@@ -65,7 +65,7 @@ A Python Flask web application featuring:
 
     python app.py
 
-    The application will be available at http://localhost:5000
+   The application will be available at http://localhost:5000
 
 ## First-Time Setup
 
@@ -77,21 +77,3 @@ A Python Flask web application featuring:
    Add a new admin account with secure credentials
    Log out and log in with the new admin account
    Delete the default admin account (recommended)
-
-   Full-Stack-Project/
-        ├── instance/                   # Database files (auto-created)
-        ├── static/
-        │   ├── style.css               # Custom styles
-        │   └── script.js               # JavaScript
-        ├── templates/
-        │   ├── base.html               # Base template
-        │   ├── contact.html            # Contact form
-        │   ├── success.html            # Successful submission
-        │   ├── login.html              # Admin login
-        │   ├── admin.html              # Admin dashboard
-        │   ├── manage_admins.html      # For managing admins
-        │   └── add_admin.html          # For adding admin
-        ├── .env                        # Environment variables
-        ├── .flaskenv                   # Flask settings
-        ├── app.py                      # Main application
-        └── requirements.txt            # Dependencies
