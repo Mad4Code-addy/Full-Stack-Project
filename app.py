@@ -64,16 +64,27 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     form = ContactForm()
+    print("form submitted")
+    print("form errors:", form.errors)
     if form.validate_on_submit():
-        contact = Contact(
-            name=form.name.data,
-            email=form.email.data,
-            message=form.message.data
-        )
-        db.session.add(contact)
-        db.session.commit()
-        flash('Your form has been submitted!', 'success')
-        return redirect(url_for('success'))
+        print("form validated")
+        try:
+            contact = Contact(
+                name=form.name.data,
+                email=form.email.data,
+                message=form.message.data
+            )
+            db.session.add(contact)
+            db.session.commit()
+            print("Contact added to database")
+            flash('Your form has been submitted!', 'success')
+            return redirect(url_for('success'))
+        except Exception as e:
+            db.session.rollback()
+            print("DB Error occurred:", str(e))
+            flash('Error submitting form!', 'danger')
+
+    print("Form validation failed or db error")
     return render_template('contact.html', form=form)
 
 @app.route('/success')

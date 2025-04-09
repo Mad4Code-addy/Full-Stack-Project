@@ -2,7 +2,7 @@
 {% block title %}Contact Us{% endblock %}
 {% block content %}
     <h1>Contact Us</h1>
-    <form method="POST" action="{{ url_for('submit') }}">
+    <form method="POST" action="{{ url_for('submit') }}" id="contact-form">
         {{ form.hidden_tag() }}
         <div class="form-group">
             {{ form.name.label }}
@@ -17,7 +17,7 @@
             {{ form.message(class="form-control", rows=5) }}
         </div>
         <div class="form-actions">
-            <a href="#" onclick="document.getElementById('contact-form').submit()" class="btn btn-primary">Submit</a>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 {% endblock %}
