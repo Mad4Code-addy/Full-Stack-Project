@@ -57,8 +57,15 @@ class AddAdminForm(FlaskForm):
 
 # Routes
 @app.route('/')
-def index():
+def home():
+    return render_template('home.html')
+
+@app.route('/contact', methods=['GET', 'POST']) 
+def contact():
     form = ContactForm()
+    if current_user.is_authenticated:
+        flash('Admins cannot submit contact form.', 'warning')
+        return redirect(url_for('home'))
     return render_template('contact.html', form=form)
 
 @app.route('/submit', methods=['POST'])
@@ -106,7 +113,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 @app.route('/admin')
 @login_required
@@ -151,7 +158,7 @@ def delete_admin(admin_id):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 def create_first_admin():
     with app.app_context():
