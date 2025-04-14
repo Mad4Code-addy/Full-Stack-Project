@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Admin Panel{% endblock %}
 {% block content %}
+<div class="page-container">
     <div class="admin-header">
         <h1>Contact Submissions</h1>
-        <div class="admin-links">
+        <!-- <div class="admin-links">
             <a href="{{ url_for('manage_admins') }}" class="btn">Manage Admins</a>
             <a href="{{ url_for('logout') }}" class="btn">Logout</a>
-        </div>
+        </div> -->
     </div>
     
     <table class="submissions-table">
@@ -29,4 +30,5 @@
             {% endfor %}
         </tbody>
     </table>
+</div>    
 {% endblock %}

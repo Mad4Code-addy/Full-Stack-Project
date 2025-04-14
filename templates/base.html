@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Audition Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('home') }}">Home</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
-        
-                {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login') }}" class="btn btn-primary">Admin Login</a></li>
-                {% endif %}
-            </ul>
-        </nav>        
-          
-        {% block content %}{% endblock %}
-    </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+<body class="light-mode">
 
+<nav class="navbar">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('home') }}">🎭 Audition Portal</a>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('contact') }}">Register</a></li>
+      {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('admin') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('manage_admins') }}">Manage Admins</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
+        <li><a href="{{ url_for('login') }}">Admin Login</a></li>
+      {% endif %}
+      <li><button id="toggle-theme" title="Toggle dark mode">🌓</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="flash-container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<div class="content">
+  {% block content %}{% endblock %}
+</div>
+
+<footer>
+  &copy; 2025 Audition Portal | Designed with ❤️ by Addy
+</footer>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

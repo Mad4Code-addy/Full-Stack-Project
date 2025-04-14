@@ -10,3 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.getElementById("toggle-theme");
+    const body = document.body;
+  
+    toggle.addEventListener("click", () => {
+      body.classList.toggle("dark-mode");
+    });
+  });
+  

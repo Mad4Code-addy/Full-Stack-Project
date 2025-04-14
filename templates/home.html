@@ -1,6 +1,21 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h1>Welcome to ANT STUDIO AUDITION</h1>
-<p>BE A STAR</p>
+<h1>Welcome to the Grand Auditions!</h1>
+<p>Register for exciting events:</p>
+
+<div class="page-container">
+  <div class="event">
+    <h2>Dancing</h2>
+    <p>Show us your best moves!</p>
+  </div>
+  <div class="event">
+    <h2>Singing</h2>
+    <p>Let your voice be heard!</p>
+  </div>
+  <div class="event">
+    <h2>Acting</h2>
+    <p>Step into character and shine!</p>
+  </div>
+</div>
+<a href="{{ url_for('contact') }}" class="btn">Register Now</a>
 {% endblock %}

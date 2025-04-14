@@ -1,10 +1,12 @@
 import os
+from datetime import date
 from flask import Flask, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms.validators import DataRequired, Email, EqualTo 
+from wtforms.fields import SelectField, DateField
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 
@@ -34,13 +36,22 @@ class Contact(db.Model):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     message = db.Column(db.Text, nullable=False)
+    category = db.Column(db.String(50), nullable=False) 
+    dob = db.Column(db.Date, nullable=False)             
 
-# Forms
+
 class ContactForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    dob = DateField('Date of Birth', format='%Y-%m-%d', validators=[DataRequired()])
+    category = SelectField('Audition Category', choices=[
+        ('dancing', 'Dancing'),
+        ('singing', 'Singing'),
+        ('acting', 'Acting')
+    ], validators=[DataRequired()])
     message = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -60,39 +71,41 @@ class AddAdminForm(FlaskForm):
 def home():
     return render_template('home.html')
 
-@app.route('/contact', methods=['GET', 'POST']) 
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
     form = ContactForm()
+    
     if current_user.is_authenticated:
         flash('Admins cannot submit contact form.', 'warning')
         return redirect(url_for('home'))
-    return render_template('contact.html', form=form)
 
-@app.route('/submit', methods=['POST'])
-def submit():
-    form = ContactForm()
-    print("form submitted")
-    print("form errors:", form.errors)
     if form.validate_on_submit():
-        print("form validated")
+        age = (date.today() - form.dob.data).days // 365
+        if age < 18:
+            flash('You must be at least 18 years old to participate.', 'warning')
+            return render_template('contact.html', form=form)
+
         try:
             contact = Contact(
                 name=form.name.data,
                 email=form.email.data,
-                message=form.message.data
+                message=form.message.data,
+                category=form.category.data,
+                dob=form.dob.data
             )
             db.session.add(contact)
             db.session.commit()
-            print("Contact added to database")
-            flash('Your form has been submitted!', 'success')
+            flash('SEE YOU IN THE Audition! 🎉', 'success')
             return redirect(url_for('success'))
         except Exception as e:
             db.session.rollback()
-            print("DB Error occurred:", str(e))
             flash('Error submitting form!', 'danger')
 
-    print("Form validation failed or db error")
+    elif form.is_submitted():
+        flash('Please correct the errors in the form.', 'danger')
+
     return render_template('contact.html', form=form)
+
 
 @app.route('/success')
 def success():
@@ -175,7 +188,7 @@ def create_first_admin():
             
             hashed_pw = generate_password_hash(default_password)
             admin = User(
-                name='Initial Admin',  # This can remain hardcoded
+                name='Yuvraj',  # This can remain hardcoded
                 username=default_username,
                 password=hashed_pw
             )

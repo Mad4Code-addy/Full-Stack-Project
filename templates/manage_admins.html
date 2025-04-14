@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Manage Admins{% endblock %}
 {% block content %}
+<div class="page-container">
     <div class="admin-header">
         <h1>Admin Management</h1>
         <div class="admin-links button-group">
             <a href="{{ url_for('admin') }}" class="btn">Back to Submissions</a>
             <a href="{{ url_for('add_admin') }}" class="btn btn-primary">Add New Admin</a>
-            <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+            <!-- <a href="{{ url_for('logout') }}" class="btn">Logout</a> -->
         </div>
     </div>
     
@@ -38,4 +39,5 @@
             {% endfor %}
         </tbody>
     </table>
+</div>    
 {% endblock %}
